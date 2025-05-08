@@ -10,6 +10,8 @@ function App() {
   const [listening, setListening] = useState(false);
   const fileInputRef = useRef(null);
 
+  const BASE_URL = "https://document-voice-backend.onrender.com";
+
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -19,7 +21,7 @@ function App() {
     formData.append("file", file);
 
     try {
-      await axios.post("http://127.0.0.1:8000/upload/", formData);
+      await axios.post(`${BASE_URL}/upload/`, formData);
       alert("✅ PDF uploaded.");
     } catch {
       alert("❌ Upload failed.");
@@ -33,18 +35,16 @@ function App() {
     setQuestion("");
 
     try {
-      // Ask question (JSON format)
-      const res = await axios.post("http://127.0.0.1:8000/ask/", {
+      const res = await axios.post(`${BASE_URL}/ask/`, {
         question: question,
       });
 
       const answer = res.data.answer;
       setChat((prev) => [...prev, { sender: "ai", text: answer }]);
 
-      // Send answer to /tts/
       const ttsForm = new FormData();
       ttsForm.append("question", answer);
-      const ttsRes = await fetch("http://127.0.0.1:8000/tts/", {
+      const ttsRes = await fetch(`${BASE_URL}/tts/`, {
         method: "POST",
         body: ttsForm,
       });
@@ -79,11 +79,10 @@ function App() {
     <div className="screen-center">
       <div className="app">
         <header>
-        <div className="logo-header">
-          <img src="/logo.png" alt="App Logo" className="logo" />
-          <h1>VocaLens</h1>
-        </div>
-
+          <div className="logo-header">
+            <img src="/logo.png" alt="App Logo" className="logo" />
+            <h1>VocaLens</h1>
+          </div>
           {fileName && <p className="filename">📄 {fileName}</p>}
         </header>
 
