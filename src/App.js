@@ -118,7 +118,7 @@ function App() {
         </main>
 
         <footer>
-          <p>Built with ❤️ using React + FastAPI + OpenAI + Apify + Rime</p>
+          <p>We Techceed</p>
         </footer>
       </div>
     </div>
